@@ -3,22 +3,38 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/reiver/go-telnet"
 	"net/http"
 	"os"
 )
 
 func main() {
-	port := flag.String("port", "4444", "port on localhost to check")
+	msg := "0"
+	msg = TestClientUrl("4444")
+	msg = TestNodePort("4040")
+	fmt.Println(msg)
+	os.Exit(0)
+}
+
+func TestClientUrl(clientPort string) string {
+	port := flag.String("port", clientPort, "port on localhost to check")
 	flag.Parse()
 
-	resp, err := http.Get("http://127.0.0.1:" + *port + "/upcheck") // Note pointer dereference using *
-
-	// If there is an error or non-200 status, exit with 1 signaling unsuccessful check.
+	resp, err := http.Get("http://127.0.0.1:" + *port + "/upcheck")
 	if err != nil || resp.StatusCode != 200 {
-		fmt.Println("1")
-		os.Exit(1)
+		fmt.Println("dead in client")
+		return "1"
 	}
-	//here a more complex cases can be added
-	fmt.Println("0")
-	os.Exit(0)
+	return "0"
+}
+
+func TestNodePort(nodePort string) string {
+	conn, err := telnet.DialTo("localhost:" + nodePort)
+	if err != nil {
+		fmt.Println("NodeUrl not responding")
+		return "1"
+	}
+	conn.Write([]byte("hello world"))
+	conn.Write([]byte("\n"))
+	return "0"
 }
