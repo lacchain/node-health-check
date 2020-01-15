@@ -41,6 +41,7 @@ func testClientURL(url string) bool {
 		fmt.Println("dead in client")
 		return true
 	}
+	fmt.Println("Successful response from ClientPort:", clientPort)
 	return false
 }
 
@@ -50,6 +51,7 @@ func testNodePort(ip, nodePort string) bool {
 		fmt.Println("NodeUrl not responding")
 		return true
 	}
+	fmt.Println("Successful response from Nodeport:", nodePort)
 	conn.Write([]byte("hello world"))
 	conn.Write([]byte("\n"))
 	return false
