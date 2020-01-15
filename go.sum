@@ -2,3 +2,5 @@ github.com/reiver/go-oi v1.0.0 h1:nvECWD7LF+vOs8leNGV/ww+F2iZKf3EYjYZ527turzM=
 github.com/reiver/go-oi v1.0.0/go.mod h1:RrDBct90BAhoDTxB1fenZwfykqeGvhI6LsNfStJoEkI=
 github.com/reiver/go-telnet v0.0.0-20180421082511-9ff0b2ab096e h1:quuzZLi72kkJjl+f5AQ93FMcadG19WkS7MO6TXFOSas=
 github.com/reiver/go-telnet v0.0.0-20180421082511-9ff0b2ab096e/go.mod h1:+5vNVvEWwEIx86DB9Ke/+a5wBI464eDRo3eF0LcfpWg=
+github.com/xin053/hsperfdata v0.2.1 h1:Ijy7+HT1Uvp5UWx8v93JPee0l1ZpQ0l51kOWBNGbJss=
+github.com/xin053/hsperfdata v0.2.1/go.mod h1:W7dZbArm64ojXFJ0Bl4yefxQSCN11/+ohDvr7wSC85M=
