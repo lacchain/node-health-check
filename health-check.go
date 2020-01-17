@@ -8,8 +8,9 @@ import (
 func main() {
 	c := fanIn(executeReadJavaProcess(), testPorts())
 	daemon.SdNotify(false, "READY=1")
-	for !<-c {
-		fmt.Println(<-c)
+	restart := false
+	for !restart {
+		restart = <-c
 	}
 
 	fmt.Println("Restarting", processName, "process...")
