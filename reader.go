@@ -17,9 +17,9 @@ func executeReadJavaProcess() <-chan bool {
 	go func() {
 		restart := false
 		for i := 0; ; i++ {
+			time.Sleep(delayTimeMinutes * time.Minute)
 			_, restartByProcessHealthy := analyzeJavaProcess() //if true ==> restart
 			restart = restartByProcessHealthy
-			time.Sleep(delayTimeMinutes * time.Minute)
 			c <- restart
 		}
 	}()

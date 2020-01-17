@@ -17,12 +17,11 @@ func testPorts() <-chan bool {
 	c := make(chan bool)
 	go func() {
 		for i := 0; ; i++ {
+			time.Sleep(delayTimeMinutes * time.Minute)
 			msg := test()
 			if msg {
 				c <- msg //true ==> restart
-			}
-
-			time.Sleep(delayTimeMinutes * time.Minute)
+			}			
 		}
 	}()
 
