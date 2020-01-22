@@ -41,6 +41,7 @@ func testClientURL(url string) bool {
 		return true
 	}
 	fmt.Println("Successful response from ClientPort:", clientPort)
+	defer resp.Body.Close()
 	return false
 }
 
