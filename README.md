@@ -1,11 +1,11 @@
 # Node Health Check #
 
 ## Introduction
-* This software guarantees availability of **orion** transaction manager. The code aims to work hand in hand with the operating system. If for some reason Orion fails then the software restarts orion service. 
+* The node-health-check service can be used to guarante availability of the **orion** transaction manager. The code aims to work hand in hand with the operating system. If for some reason the Orion service fails, then the node-health-check service restarts it. 
 
-* Currently this code is being used in the [lacchain network](https://github.com/lacchain/besu-network) by **writer** nodes that execute private transactions. The installation has been automated in the lacchain-network repository by using ansible. 
+* The installation of this service has been automated in the recommended process for the deployment of new nodes described in the [lacchain network](https://github.com/lacchain/besu-network) repository, that uses Ansible. Therefore, it's being used in the [besu-network](https://github.com/lacchain/besu-network) by **writer** nodes that execute private transactions.
 
-* When running, the software monitors the following:
+* The node-health-check service monitors the following:
     1. Orion Node url
     2. Orion Client url
     3. Orion Java process: Monitors the heap and old space.
@@ -31,7 +31,7 @@ $ go run health-check
 ```
 
 ### Looking for logs ###
-If you have installed this software by using the  ansible for [lacchain network](https://github.com/lacchain/besu-network) then you can check the logs by using:
+If you have installed this software by using the ansible from the [besu-network](https://github.com/lacchain/besu-network), you can check the logs by using:
 ```shell
 $ journalctl -fu health-check.service
 ```
