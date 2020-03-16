@@ -27,7 +27,7 @@ func executeReadJavaProcess() <-chan bool {
 }
 
 func analyzeJavaProcess() (interface{}, bool) {
-	err, currentNFGC, edenPercentage, s0Percentage, s1Percentage, relativeOldSpacePercentage, absoluteOldSpacePercentage := getData()
+	err, currentNFGC, _, _, _, relativeOldSpacePercentage, absoluteOldSpacePercentage := getData()
 	if err != nil {
 		return err, false
 	}
@@ -35,8 +35,9 @@ func analyzeJavaProcess() (interface{}, bool) {
 	hasNFGCIncremented := (currentNFGC > previousNFGC)
 	hasOldSpaceIncremented := (int(relativeOldSpacePercentage) >= int(previousOldSpacePercentage))
 	oldSpaceCondition := hasOldSpaceIncremented && hasNFGCIncremented && (relativeOldSpacePercentage > 95.0) && (absoluteOldSpacePercentage > 90)
-	youngSpaceCondition := (edenPercentage < 2.0) && (s0Percentage < 2.0) && (s1Percentage < 2.0)
-	restart := (oldSpaceCondition && youngSpaceCondition)
+	//youngSpaceCondition := (edenPercentage < 2.0) && (s0Percentage < 2.0) && (s1Percentage < 2.0)
+	fmt.Println("hasOldSpaceIncremented , hasNFGCIncremented , (relativeOldSpacePercentage > 95.0) , (absoluteOldSpacePercentage > 90)", hasOldSpaceIncremented, hasNFGCIncremented, (relativeOldSpacePercentage > 95.0), (absoluteOldSpacePercentage > 90))
+	restart := oldSpaceCondition //(oldSpaceCondition && youngSpaceCondition)
 	previousOldSpacePercentage = relativeOldSpacePercentage
 	previousNFGC = currentNFGC
 	report()
@@ -56,7 +57,7 @@ func report() interface{} {
 
 	edenUsed, edenSpaceCapacity, edenMaxSpaceCapacity := getEdenCapacities(data)
 	edenPercentage := divide(float64(edenUsed), float64(edenSpaceCapacity)) * 100
-	fmt.Println("Eden statistics\n",
+	fmt.Println("***Eden statistics***\n",
 		"eden used:", edenUsed, "\n",
 		"eden capacity:", edenSpaceCapacity, "\n",
 		"eden MaxSpaceCapacity", edenMaxSpaceCapacity, "\n",
@@ -64,7 +65,7 @@ func report() interface{} {
 
 	s0Used, s0SpaceCapacity, s0MaxSpaceCapacity := getS0Capacities(data)
 	s0Percentage := divide(float64(s0Used), float64(s0SpaceCapacity)) * 100
-	fmt.Println("s0 statistics\n",
+	fmt.Println("***s0 statistics***\n",
 		"s0 used:", s0Used, "\n",
 		"s0 capacity:", s0SpaceCapacity, "\n",
 		"s0 MaxSpaceCapacity", s0MaxSpaceCapacity, "\n",
@@ -72,7 +73,7 @@ func report() interface{} {
 
 	s1Used, s1SpaceCapacity, s1MaxSpaceCapacity := getS1Capacities(data)
 	s1Percentage := divide(float64(s1Used), float64(s1SpaceCapacity)) * 100
-	fmt.Println("s1 statistics\n",
+	fmt.Println("***s1 statistics***\n",
 		"s1 used:", s1Used, "\n",
 		"s1 capacity:", s1SpaceCapacity, "\n",
 		"s1 MaxSpaceCapacity", s1MaxSpaceCapacity, "\n",
@@ -80,7 +81,7 @@ func report() interface{} {
 
 	youngSpaceCapacity, youngSpaceMaxCapacity := getYoungCapacities(data)
 	youngUsed := edenUsed + s0Used + s1Used
-	fmt.Println("young statistics\n",
+	fmt.Println("***young statistics***\n",
 		"young used:", youngUsed, "\n",
 		"young capacity:", youngSpaceCapacity, "\n",
 		"young MaxSpaceCapacity", youngSpaceMaxCapacity)
@@ -88,7 +89,7 @@ func report() interface{} {
 	oldUsed, oldSpaceCapacity, oldSpaceMaxCapacity := getOldSpaceCapacities(data)
 	relativeOldSpacePercentage := divide(float64(oldUsed), float64(oldSpaceCapacity)) * 100
 	absoluteOldSpacePercentage := divide(float64(oldUsed), float64(oldSpaceMaxCapacity)) * 100
-	fmt.Println("old statistics\n",
+	fmt.Println("***old statistics***\n",
 		"old used", oldUsed, "\n",
 		"old capacity", oldSpaceCapacity, "\n",
 		"old MaxSpaceCapacity", oldSpaceMaxCapacity, "\n",
@@ -97,7 +98,7 @@ func report() interface{} {
 	)
 
 	currentNFGC := getFGC(data)
-	fmt.Println("Number of Full Garbage Collector:", currentNFGC)
+	fmt.Println("***Number of Full Garbage Collector:", currentNFGC)
 	fmt.Println("*************************************************************************")
 	return nil
 }
